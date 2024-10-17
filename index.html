@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HLS Stream Player</title>
+    <link href="https://vjs.zencdn.net/7.11.4/video-js.css" rel="stylesheet" />
+    <script src="https://vjs.zencdn.net/7.11.4/video.js"></script>
+  </head>
+  <body>
+    <div>
+      <input type="text" id="baseurl" placeholder="Enter Base URL" />
+      <input type="text" id="uin" placeholder="Enter UIN" />
+      <input type="text" id="muid" placeholder="Enter MUID" />
+      <button id="submit">Submit</button>
+    </div>
+
+    <br />
+    <br />
+    <br />
+    <br />
+    <video id="my_video" class="video-js vjs-default-skin" controls autoplay preload="auto" width="640" height="360" crossorigin="anonymous">
+      <source id="video_source" src="" type="application/x-mpegURL" />
+    </video>
+    <script>
+      var player = videojs('my_video');
+
+      document.getElementById('submit').onclick = function () {
+        var baseurl = document.getElementById('baseurl').value;
+        var uin = document.getElementById('uin').value;
+        var muid = document.getElementById('muid').value;
+
+        if (baseurl && uin && muid) {
+          var newUrl = `${baseurl}/stream/${uin}_${muid}/index.m3u8`;
+
+          var videoSource = document.getElementById('video_source');
+          videoSource.src = newUrl;
+
+          player.src({ type: 'application/x-mpegURL', src: newUrl });
+          player.play();
+        } else {
+          alert('Please enter Base URL, UIN, and MUID.');
+        }
+      };
+    </script>
+  </body>
+</html>
